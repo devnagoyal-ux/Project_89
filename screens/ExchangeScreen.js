@@ -18,13 +18,15 @@ export default class ExchangeScreen extends Component{
     this.state ={
       userId : firebase.auth().currentUser.email,
       itemName:"",
+      itemValue:"",
       itemDescription:"",
       IsExchangedRequestActive : "",
       requestedItemName: "",
       itemStatus:"",
       requestId:"",
       userDocId: '',
-      docId :''
+      docId :'',
+      itemValue:'',
     }
   }
 
@@ -40,6 +42,7 @@ export default class ExchangeScreen extends Component{
     db.collection('requested_items').add({
         "user_id": userId,
         "item_name":itemName,
+        "item_value" : itemValue,
         "item_description":itemDescription,
         "request_id"  : randomRequestId,
         "item_status" : "received",
@@ -189,6 +192,10 @@ export default class ExchangeScreen extends Component{
             <Text>{this.state.requestedItemName}</Text>
             </View>
             <View style={{borderColor:"orange",borderWidth:2,justifyContent:'center',alignItems:'center',padding:10,margin:10}}>
+            <Text>Item Value</Text>
+            <Text>{this.state.itemValue}</Text>
+            </View>
+            <View style={{borderColor:"orange",borderWidth:2,justifyContent:'center',alignItems:'center',padding:10,margin:10}}>
             <Text> Item Status </Text>
   
             <Text>{this.state.itemStatus}</Text>
@@ -223,6 +230,16 @@ export default class ExchangeScreen extends Component{
                       })
                   }}
                   value={this.state.itemName}
+                />
+                <TextInput
+                  style ={styles.formTextInput}
+                  placeholder={"enter price of item"}
+                  onChangeText={(text)=>{
+                      this.setState({
+                          itemValue:text
+                      })
+                  }}
+                  value={this.state.itemValue}
                 />
                 <TextInput
                   style ={[styles.formTextInput,{height:300}]}
