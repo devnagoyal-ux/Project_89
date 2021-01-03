@@ -15,6 +15,7 @@ export default class SignUpLogin extends Component{
             address :'',
             isModalVisible : false,
             confirmPassword:'',
+            currencyCode:'',
         }
     }
 
@@ -29,7 +30,8 @@ export default class SignUpLogin extends Component{
             last_name:this.state.lastName,
             contact:this.state.contact,
             email_id:this.state.emailId,
-            address:this.state.address
+            address:this.state.address,
+            currency_Code:this.state.currencyCode,
           })
           return  Alert.alert(
                'User Added Successfully',
@@ -114,6 +116,16 @@ export default class SignUpLogin extends Component{
                   })
                 }}
               />
+              <TextInput
+              style={styles.formTextInput}
+              placeholder={"Country Currency Code"}
+              maxLength={8}
+              onChangeText={(text)=>{
+                this.setState({
+                  currencyCode: text
+                })
+              }}
+            />
               <TextInput
                 style={styles.formTextInput}
                 placeholder ={"Email"}
@@ -201,6 +213,7 @@ export default class SignUpLogin extends Component{
               })
             }}
           />
+        
           <TouchableOpacity
              style={[styles.button,{marginBottom:20, marginTop:20}]}
              onPress = {()=>{
