@@ -5,12 +5,17 @@ import {
   TextInput,
   KeyboardAvoidingView,
   StyleSheet,
+  FlatList,
   ScrollView,
   TouchableOpacity,
   Alert} from 'react-native';
 import db from '../config';
 import firebase from 'firebase';
-import MyHeader from '../components/MyHeader'
+import MyHeader from '../components/MyHeader';
+import { RFValue } from "react-native-responsive-fontsize";
+import { SearchBar, ListItem, Input } from "react-native-elements";
+
+
 
 export default class ExchangeScreen extends Component{
   constructor(){
@@ -216,91 +221,156 @@ export default class ExchangeScreen extends Component{
       {
       return(
         // Form screen
-          <View style={{flex:1}}>
-            <MyHeader title="Exchange Items" navigation ={this.props.navigation}/>
-  
-            <ScrollView>
-              <KeyboardAvoidingView style={styles.keyBoardStyle}>
-                <TextInput
+        <ScrollView>
+        <View style={{ flex: 1 }}>
+        <View style={{ flex: 0.1 }}>
+          <MyHeader title="Request Item" navigation={this.props.navigation} />
+        </View>
+        <View style={{ flex: 0.9 }}>
+          <View style={{ alignItems: "center" }}>
+          <Input
+            style={styles.formTextInput}
+            label={"Item Name"}
+            placeholder={"item name"}
+            containerStyle={{ marginTop: RFValue(60) }}
+            value={this.state.itemName}
+          />
+                <Input
                   style ={styles.formTextInput}
-                  placeholder={"enter item name"}
-                  onChangeText={(text)=>{
-                      this.setState({
-                          itemName:text
-                      })
-                  }}
-                  value={this.state.itemName}
-                />
-                <TextInput
-                  style ={styles.formTextInput}
+                  containerStyle={{ marginTop: RFValue(30) }}
+                  label={"Item Value"}
                   placeholder={"enter price of item"}
                   onChangeText={(text)=>{
                       this.setState({
                           itemValue:text
-                      })
+                      });
                   }}
                   value={this.state.itemValue}
                 />
-                <TextInput
-                  style ={[styles.formTextInput,{height:300}]}
-                  multiline
-                  numberOfLines ={8}
-                  placeholder={"Description of an item"}
-                  onChangeText ={(text)=>{
-                      this.setState({
-                          item_description:text
-                      })
-                  }}
-                  value ={this.state.item_description}
-                />
+               
+              <Input
+                style={styles.formTextInput}
+                containerStyle={{ marginTop: RFValue(30) }}
+                multiline
+                numberOfLines={9}
+                label={"Description"}
+                placeholder={"Write description of an item"}
+                onChangeText={(text) => {
+                  this.setState({
+                    itemDescription : text,
+                  });
+                }}
+                value={this.state.itemDescription}
+              />
+              
                 <TouchableOpacity
-                  style={styles.button}
-                  onPress={()=>{ this.addRequest(this.state.itemName,this.state.item_description);
-                  }}
-                  >
-                  <Text>Request</Text>
-                </TouchableOpacity>
+                style={[styles.button, { marginTop: RFValue(30) }]}
+                onPress={() => {
+                  this.addRequest(
+                    this.state.itemName,
+                    this.state.itemDescription
+                  );
+                }}
+              >
+                <Text
+                  style={styles.requestbuttontxt}
+                >
+                  Request
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )
+        </View>
+      </View>
+      </ScrollView>
+    );
+  }
+}
+}
   
-              </KeyboardAvoidingView>
-              </ScrollView>
-          </View>
-      )
-    }
-  }
-  }
 
 const styles = StyleSheet.create({
-  keyBoardStyle : {
-    flex:1,
-    alignItems:'center',
-    justifyContent:'center'
+  keyBoardStyle: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  formTextInput:{
-    width:"75%",
-    height:35,
-    alignSelf:'center',
-    borderColor:'#ffab91',
-    borderRadius:10,
-    borderWidth:1,
-    marginTop:20,
-    padding:10,
+  formTextInput: {
+    width: "75%",
+    height: RFValue(35),
+    borderWidth: 1,
+    padding: 10,
   },
-  button:{
-    width:"75%",
-    height:50,
-    justifyContent:'center',
+  ImageView:{
+    flex: 0.3,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop:20
+  },
+  imageStyle:{
+    height: RFValue(150),
+    width: RFValue(150),
+    alignSelf: "center",
+    borderWidth: 5,
+    borderRadius: RFValue(10),
+  },
+  bookstatus:{
+    flex: 0.4,
+    alignItems: "center",
+
+  },
+  requestedbookName:{
+    fontSize: RFValue(30),
+    fontWeight: "500",
+    padding: RFValue(10),
+    fontWeight: "bold",
     alignItems:'center',
-    borderRadius:10,
-    backgroundColor:"#ff5722",
+    marginLeft:RFValue(60)
+  },
+  status:{
+    fontSize: RFValue(20),
+    marginTop: RFValue(30),
+  },
+  bookStatus:{
+    fontSize: RFValue(30),
+    fontWeight: "bold",
+    marginTop: RFValue(10),
+  },
+  buttonView:{
+    flex: 0.2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttontxt:{
+    fontSize: RFValue(18),
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  touchableopacity:{
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+    width: "90%",
+  },
+  requestbuttontxt:{
+    fontSize: RFValue(20),
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  button: {
+    width: "75%",
+    height: RFValue(60),
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: RFValue(50),
+    backgroundColor: "#32867d",
     shadowColor: "#000",
     shadowOffset: {
-       width: 0,
-       height: 8,
+      width: 0,
+      height: 8,
     },
     shadowOpacity: 0.44,
     shadowRadius: 10.32,
     elevation: 16,
-    marginTop:20
-    },
-  }
-)
+  },
+});
